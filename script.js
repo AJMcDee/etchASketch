@@ -27,6 +27,10 @@ function populateNewGrid(num) {
     }
 }
 
+function isNumeric(value) {
+    return /^\d+$/.test(value);
+}
+
 /// Event listeners
 
 document.getElementById("container").addEventListener("mouseover", function(event) {
@@ -38,15 +42,22 @@ resetButton.addEventListener("click", () => {
     var squares = [].slice.call(container.children);
     squares.forEach(function(e){
         e.style.backgroundColor = "white"});
-     newGridDimension = window.prompt("How many columns and rows would you like for your new grid?");
-     newGridDimension = parseInt(newGridDimension);
-     if (typeof newGridDimension === "number") { 
-        squares.forEach(function(e){
-            e.remove()});
-        document.getElementById("container").style.gridTemplateColumns = `repeat(${newGridDimension}, 1fr)`;
-        document.getElementById("container").style.gridTemplateRows = `repeat(${newGridDimension}, 1fr)`;
-    populateNewGrid(newGridDimension);
-    } 
+
+     for (let valid = 0; valid < 1;) { 
+            newGridDimension = window.prompt("How many columns and rows would you like for your new grid?");
+            if (isNumeric(newGridDimension) === false) {
+                console.log("Test");
+                alert("Invalid entry. Please enter one whole number.");
+            } else {
+                newGridDimension = parseInt(newGridDimension);
+                squares.forEach(function(e){
+                    e.remove()});
+                document.getElementById("container").style.gridTemplateColumns = `repeat(${newGridDimension}, 1fr)`;
+                document.getElementById("container").style.gridTemplateRows = `repeat(${newGridDimension}, 1fr)`;
+                populateNewGrid(newGridDimension);
+                break
+            }
+    }
 })
 
 /// Call events if needed
